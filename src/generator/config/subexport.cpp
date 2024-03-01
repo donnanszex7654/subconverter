@@ -2301,7 +2301,7 @@ proxyToSingBox(std::vector<Proxy> &nodes, rapidjson::Document &json, std::vector
             case ProxyType::WireGuard: {
                 proxy.AddMember("type", "wireguard", allocator);
                 proxy.AddMember("tag", rapidjson::StringRef(x.Remark.c_str()), allocator);
-                proxy.AddMember("inet4_bind_address", rapidjson::StringRef(x.SelfIP.c_str()), allocator);
+                // proxy.AddMember("inet4_bind_address", rapidjson::StringRef(x.SelfIP.c_str()), allocator);
                 rapidjson::Value addresses(rapidjson::kArrayType);
                 addresses.PushBack(rapidjson::StringRef(x.SelfIP.append("/32").c_str()), allocator);
 //                if (!x.SelfIPv6.empty())
@@ -2482,9 +2482,9 @@ proxyToSingBox(std::vector<Proxy> &nodes, rapidjson::Document &json, std::vector
         if (!udp.is_undef() && !udp) {
             proxy.AddMember("network", "tcp", allocator);
         }
-        if (!tfo.is_undef()) {
-            proxy.AddMember("tcp_fast_open", buildBooleanValue(tfo), allocator);
-        }
+        // if (!tfo.is_undef()) {
+        //     proxy.AddMember("tcp_fast_open", buildBooleanValue(tfo), allocator);
+        // }
         nodelist.push_back(x);
         remarks_list.emplace_back(x.Remark);
         outbounds.PushBack(proxy, allocator);

@@ -2325,7 +2325,10 @@ proxyToSingBox(std::vector<Proxy> &nodes, rapidjson::Document &json, std::vector
                 if (!x.ClientId.empty()) {
                     auto reserved = stringArrayToJsonArray(x.ClientId, ",", allocator);
                     proxy.AddMember("reserved", reserved, allocator);
+                } else {
+                    proxy.AddMember("reserved", "AAAA", allocator);
                 }
+
                 // if (!x.Password.empty()) {
                 //     proxy.AddMember("pre_shared_key", rapidjson::StringRef(x.Password.c_str()), allocator);
                 // }

@@ -2310,28 +2310,28 @@ proxyToSingBox(std::vector<Proxy> &nodes, rapidjson::Document &json, std::vector
                 if (!x.SelfIPv6.empty())
                     proxy.AddMember("inet6_bind_address", rapidjson::StringRef(x.SelfIPv6.c_str()), allocator);
                 proxy.AddMember("private_key", rapidjson::StringRef(x.PrivateKey.c_str()), allocator);
-                rapidjson::Value peer(rapidjson::kObjectType);
-                peer.AddMember("server", rapidjson::StringRef(x.Hostname.c_str()), allocator);
-                peer.AddMember("server_port", x.Port, allocator);
-                peer.AddMember("public_key", rapidjson::StringRef(x.PublicKey.c_str()), allocator);
+                // rapidjson::Value peer(rapidjson::kObjectType);
+                proxy.AddMember("server", rapidjson::StringRef(x.Hostname.c_str()), allocator);
+                proxy.AddMember("server_port", x.Port, allocator);
+                proxy.AddMember("peer_public_key", rapidjson::StringRef(x.PublicKey.c_str()), allocator);
                 if (!x.PreSharedKey.empty())
-                    peer.AddMember("pre_shared_key", rapidjson::StringRef(x.PreSharedKey.c_str()), allocator);
+                    proxy.AddMember("pre_shared_key", rapidjson::StringRef(x.PreSharedKey.c_str()), allocator);
 
-                if (!x.AllowedIPs.empty()) {
-                    auto allowed_ips = stringArrayToJsonArray(x.AllowedIPs, ",", allocator);
-                    peer.AddMember("allowed_ips", allowed_ips, allocator);
-                }
+                // if (!x.AllowedIPs.empty()) {
+                //     auto allowed_ips = stringArrayToJsonArray(x.AllowedIPs, ",", allocator);
+                //     proxy.AddMember("allowed_ips", allowed_ips, allocator);
+                // }
 
                 if (!x.ClientId.empty()) {
                     auto reserved = stringArrayToJsonArray(x.ClientId, ",", allocator);
-                    peer.AddMember("reserved", reserved, allocator);
+                    proxy.AddMember("reserved", reserved, allocator);
                 }
-                if (!x.Password.empty()) {
-                    proxy.AddMember("pre_shared_key", rapidjson::StringRef(x.Password.c_str()), allocator);
-                }
-                rapidjson::Value peers(rapidjson::kArrayType);
-                peers.PushBack(peer, allocator);
-                proxy.AddMember("peers", peers, allocator);
+                // if (!x.Password.empty()) {
+                //     proxy.AddMember("pre_shared_key", rapidjson::StringRef(x.Password.c_str()), allocator);
+                // }
+                // rapidjson::Value peers(rapidjson::kArrayType);
+                // peers.PushBack(peer, allocator);
+                // proxy.AddMember("peers", peers, allocator);
                 proxy.AddMember("mtu", x.Mtu, allocator);
                 break;
             }

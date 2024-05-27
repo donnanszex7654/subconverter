@@ -236,9 +236,8 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
         tribool tfo = ext.tfo;
         udp.define(x.UDP);
         xudp.define(x.XUDP);
-        scv.define(x.AllowInsecure);
+        scv = x.AllowInsecure;
         tfo.define(x.TCPFastOpen);
-
         singleproxy["name"] = x.Remark;
         singleproxy["server"] = x.Hostname;
         singleproxy["port"] = x.Port;
@@ -1443,6 +1442,23 @@ void proxyToQuanX(std::vector<Proxy> &nodes, INIReader &ini, std::vector<Ruleset
                 if (method == "auto")
                     method = "chacha20-ietf-poly1305";
                 proxyStr = "vmess = " + hostname + ":" + port + ", method=" + method + ", password=" + id;
+                if (x.AlterId != 0)
+                    proxyStr += ", aead=false";
+                if (tlssecure && !tls13.is_undef())
+                    proxyStr += ", tls13=" + std::string(tls13 ? "true" : "false");
+                if (transproto == "ws") {
+                    if (tlssecure)
+                        proxyStr += ", obfs=wss";
+                    else
+                        proxyStr += ", obfs=ws";
+                    proxyStr += ", obfs-host=" + host + ", obfs-uri=" + path;
+                } else if (tlssecure)
+                    proxyStr += ", obfs=over-tls, obfs-host=" + host;
+                break;
+            case ProxyType::VLESS:
+                if (method == "auto")
+                    method = "chacha20-ietf-poly1305";
+                proxyStr = "vless = " + hostname + ":" + port + ", method=" + method + ", password=" + id;
                 if (x.AlterId != 0)
                     proxyStr += ", aead=false";
                 if (tlssecure && !tls13.is_undef())

@@ -1,0 +1,14 @@
+{
+    "name": "Alpine",
+    "image": "alpine:latest",
+    "postCreateCommand": "apk update && apk add git",
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/ash"
+    },
+    "extensions": [
+      "ms-vscode.cpptools",
+      "ms-python.python"
+    ],
+    "remoteUser": "root"
+  }
+  
